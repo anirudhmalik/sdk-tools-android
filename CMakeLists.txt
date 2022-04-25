@@ -9,6 +9,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fcolor-diagnostics -fPIC -Wno-attribute
 # static link
 set(CMAKE_EXE_LINKER_FLAGS "-static")
 
+# platform tools version
+# see the patches/other/platform_tools_version.h
 set(TOOLS_VERSION 33.0.1)
 set(SRC ${PROJECT_SOURCE_DIR}/src)
 
@@ -56,3 +58,4 @@ set(CPACK_SOURCE_IGNORE_FILES
 )
     
 include(CPack)
+
