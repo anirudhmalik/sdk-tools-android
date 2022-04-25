@@ -15,6 +15,7 @@ set(SRC ${PROJECT_SOURCE_DIR}/src)
 # 64-bit off_t for lseek.
 add_definitions(-D_FILE_OFFSET_BITS=64)
 
+# do not use the system's protobuf, as this may have incompatibilities
 add_custom_target(aprotoc
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     DEPENDS protobuf::protoc
@@ -52,6 +53,6 @@ set(CPACK_SOURCE_IGNORE_FILES
     ${PROJECT_SOURCE_DIR}/build
     ${PROJECT_SOURCE_DIR}/patches
     ${PROJECT_SOURCE_DIR}/pack
-    )
+)
     
 include(CPack)
