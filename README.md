@@ -6,21 +6,35 @@ Currently only test aarch64 architecture</br>
 
 For other architectures you may need to refer to `Android.bp` to modify the corresponding CMake file
 
+If you redownloaded the latest source from the master branch, patch files may be incompatible and you may encounter some new errors
+
+Patch files are not universal since the master branch is updated very quickly
+
+If necessary, you need to patch it by yourself
+
  **** 
+ 
 ### How to build
 
 ```bash
-# clone repository
+
+# clone the repository
 git clone --depth=1 https://github.com/Lzhiyong/sdk-tools
 
-git submodule update --depth=1 --init --recursive
+cd sdk-tools
 
-cd /path/to/sdk-tools 
+# download the source code
+python get_source.py
+
+# note that the above three commands are not necessary
+# If you need the latest source code, it is necessary clone this repository and download the source code
+# in most cases, you can download the release/sdk-tools-source.zip for direct compilation
 
 mkdir build && cd build
 
-# set up the ndk toolchain
-NDK_TOOLCHAIN=/path/to/android-ndk-r23/toolchains/llvm/prebuilt/linux-x86_64
+# ==============start build.sh==============
+# setup the ndk toolchain
+NDK_TOOLCHAIN=/path/to/android-ndk-r24/toolchains/llvm/prebuilt/linux-x86_64
 
 cmake -G 'Ninja' \
     -DCMAKE_C_COMPILER=$NDK_TOOLCHAIN/bin/aarch64-linux-android30-clang \
@@ -28,14 +42,18 @@ cmake -G 'Ninja' \
     -DCMAKE_SYSROOT=$NDK_TOOLCHAIN/sysroot \
     -DCMAKE_BUILD_TYPE=Release \
     ..
+# ==============end build.sh===============
 
-# patch 
-ninja patch
+# generate the protoc file
+ninja aprotoc
 
+# please note that: 
+# you need to execute the build.sh again
+# use protoc to generate cpp files
+bash build.sh
+
+# start building
 ninja -j16
-
-# package the source code
-ninja package_source
 
 ```
 
