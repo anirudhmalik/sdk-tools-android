@@ -3,19 +3,19 @@ add_executable(zipalign
     ${SRC}/zipalign/ZipEntry.cpp
     ${SRC}/zipalign/ZipFile.cpp
     ${SRC}/zipalign/ZipAlignMain.cpp
-    )
+)
 
-target_include_directories(zipalign PUBLIC
+target_include_directories(zipalign PRIVATE
     ${SRC}/libbase/include
     ${SRC}/logging/liblog/include
     ${SRC}/core/libutils/include
     ${SRC}/libziparchive/include
-    )
+)
 
 target_include_directories(zipalign PRIVATE
     ${SRC}/zipalign/include
     ${SRC}/zopfli/src
-    )
+)
 
 target_link_libraries(zipalign 
     libutils 
@@ -26,4 +26,4 @@ target_link_libraries(zipalign
     c++_static
     dl
     z
-    )
+)

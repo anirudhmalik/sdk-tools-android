@@ -1,0 +1,11 @@
+--- a/src/protobuf/cmake/protoc.cmake2022-04-25 18:08:05.502147547 +0800
++++ b/src/protobuf/cmake/protoc.cmake	2022-04-25 18:05:59.772135022 +0800
+@@ -9,7 +9,7 @@
+ endif()
+ 
+ add_executable(protoc ${protoc_files} ${protoc_rc_files})
+-target_link_libraries(protoc libprotoc libprotobuf)
++target_link_libraries(protoc libprotoc libprotobuf liblog)
+ add_executable(protobuf::protoc ALIAS protoc)
+ 
+ set_target_properties(protoc PROPERTIES

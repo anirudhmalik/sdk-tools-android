@@ -1,3 +1,7 @@
+project(platform-tools)
+# output path
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin/${PROJECT_NAME})
+
 include(dmtracedump.cmake)
 include(hprof-conv.cmake)
 include(sqlite3.cmake)

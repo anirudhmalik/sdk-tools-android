@@ -44,8 +44,8 @@ add_library(libselinux STATIC
     ${SRC}/selinux/libselinux/src/regex.c
     ${SRC}/selinux/libselinux/src/selinux_config.c
     ${SRC}/selinux/libselinux/src/seusers.c
-    ${SRC}/selinux/libselinux/src/android/android_vendor.c
-    )
+    ${SRC}/selinux/libselinux/src/android/android_platform.c
+)
 
 target_compile_definitions(libselinux PRIVATE
     -DAUDITD_LOG_TAG=1003 
@@ -59,16 +59,16 @@ target_compile_definitions(libselinux PRIVATE
     -DNO_X_BACKEND 
     -DNO_DB_BACKEND
     -DPCRE2_CODE_UNIT_WIDTH=8
-    )
+)
     
-target_include_directories(libselinux PUBLIC
+target_include_directories(libselinux PRIVATE
     ${SRC}/selinux/libselinux/include 
     ${SRC}/selinux/libsepol/include
     ${SRC}/core/libcutils/include
     ${SRC}/logging/liblog/include 
     ${SRC}/core/libpackagelistparser/include
     ${SRC}/pcre/include
-    )
+)
 target_include_directories(libselinux PRIVATE
     ${SRC}/selinux/libselinux/src
-    )
+)

@@ -13,23 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 #include <build/version.h>
+
 #ifdef __ANDROID__
 #include <sys/system_properties.h>
 #endif
+
 namespace android {
 namespace build {
+
 #define PLACEHOLDER "SOONG BUILD NUMBER PLACEHOLDER"
+
 extern "C" {
   char soong_build_number[128] = PLACEHOLDER;
 }
+
 #ifdef __ANDROID__
+
 std::string GetBuildNumber() {
   if (strcmp(PLACEHOLDER, soong_build_number) != 0) {
     return soong_build_number;
   }
+
+#ifdef __ANDROID_VENDOR__
+  const prop_info* pi = __system_property_find("ro.vendor.build.version.incremental");
+#else
   const prop_info* pi = __system_property_find("ro.build.version.incremental");
+#endif
   if (pi == nullptr) return "";
+
   std::string property_value;
   __system_property_read_callback(pi,
                                   [](void* cookie, const char*, const char* value, unsigned) {
@@ -37,13 +50,16 @@ std::string GetBuildNumber() {
                                     *property_value = value;
                                   },
                                   &property_value);
+
   return property_value;
 }
+
 #else
+
 std::string GetBuildNumber() {
   return soong_build_number;
 }
+
 #endif
 }  // namespace build
 }  // namespace android
-

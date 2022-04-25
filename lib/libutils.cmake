@@ -20,9 +20,9 @@ add_library(libutils STATIC
     ${SRC}/core/libutils/misc.cpp
     ${SRC}/core/libutils/Trace.cpp
     ${SRC}/core/libutils/Looper.cpp
-    )
+)
 
-target_include_directories(libutils PUBLIC
+target_include_directories(libutils PRIVATE
     ${SRC}/core/include
     ${SRC}/core/libutils/include
     ${SRC}/core/libprocessgroup/include
@@ -30,4 +30,4 @@ target_include_directories(libutils PUBLIC
     ${SRC}/logging/liblog/include 
     ${SRC}/libbase/include
     ${SRC}/unwinding/libbacktrace/include
-    )
+)

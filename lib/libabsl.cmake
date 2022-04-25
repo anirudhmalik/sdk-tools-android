@@ -11,10 +11,10 @@ add_library(libabsl_base STATIC
     ${SRC}/abseil-cpp/absl/base/internal/thread_identity.cc
     ${SRC}/abseil-cpp/absl/base/internal/throw_delegate.cc
     ${SRC}/abseil-cpp/absl/base/internal/unscaledcycleclock.cc
-    )
+)
 target_include_directories(libabsl_base PUBLIC
     ${SRC}/abseil-cpp
-    )
+)
 
 add_library(libabsl_strings STATIC
     ${SRC}/abseil-cpp/absl/strings/ascii.cc
@@ -42,8 +42,8 @@ add_library(libabsl_strings STATIC
     ${SRC}/abseil-cpp/absl/strings/str_split.cc
     ${SRC}/abseil-cpp/absl/strings/string_view.cc
     ${SRC}/abseil-cpp/absl/strings/substitute.cc
-    )
+)
 target_include_directories(libabsl_strings PUBLIC
     ${SRC}/abseil-cpp
-    )
+)
     

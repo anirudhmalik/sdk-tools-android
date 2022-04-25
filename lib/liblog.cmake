@@ -12,18 +12,18 @@ add_library(liblog STATIC
     ${SRC}/logging/liblog/pmsg_writer.cpp
     ${SRC}/logging/liblog/logd_reader.cpp
     ${SRC}/logging/liblog/logd_writer.cpp
-    )
+)
 
 target_compile_definitions(liblog PRIVATE
     -DLIBLOG_LOG_TAG=1006 
     -D_XOPEN_SOURCE=700 
     -DFAKE_LOG_DEVICE=1
     -DSNET_EVENT_LOG_TAG=1397638686
-    )
+)
     
-target_include_directories(liblog PUBLIC
+target_include_directories(liblog PRIVATE
     ${SRC}/core/include
     ${SRC}/logging/liblog/include
     ${SRC}/core/libcutils/include
     ${SRC}/libbase/include
-    )
+)

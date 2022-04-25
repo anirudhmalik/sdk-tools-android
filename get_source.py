@@ -1,0 +1,75 @@
+#!/usr/bin/env python
+
+import os
+import requests
+import tarfile
+import shutil
+from pathlib import Path
+
+
+def untar(source, target):
+    tar = tarfile.open(source)
+    names = tar.getnames()
+    if os.path.isdir(target):
+        pass
+    else:
+        os.mkdir(target)
+
+    for name in names:
+        tar.extract(name, target)
+    tar.close()
+
+def download(url, filename, target):
+    print("downloading {}".format(filename))
+    content = requests.get(url).content
+    with open(filename, 'wb') as file:
+        file.write(content)
+    # extract tar file
+    print("extracting {} to {}".format(filename, target))
+    untar(filename, target)
+    # delete file
+    if os.path.exists(filename):
+        os.remove(filename)
+
+def patch():
+    inc = Path(os.getcwd() + "/src/incremental_delivery/sysprop/include")
+    if not inc.exists():
+        inc.mkdir()
+    shutil.copy2(Path("patches/other/IncrementalProperties.sysprop.h"), inc)
+    shutil.copy2(Path("patches/other/IncrementalProperties.sysprop.cpp"), inc.parent)
+
+    shutil.copy2(Path("patches/other/deployagent.inc"), Path("src/adb/fastdeploy/deployagent"))
+    shutil.copy2(Path("patches/other/deployagentscript.inc"), Path("src/adb/fastdeploy/deployagent"))
+
+    shutil.copy2(Path("patches/other/platform_tools_version.h"), Path("src/libbuildversion/include"))
+
+def main():
+    # branch android-mainline-12.0.0_r32
+    # libziparchive
+    url = "https://android.googlesource.com/platform/system/libziparchive/+archive/a0b94e44142022e8b6ba86c3dc84b9f2594f9f98.tar.gz"
+    download(url, os.path.basename(url), "src/libziparchive")
+
+    # zipalign
+    url = "https://android.googlesource.com/platform/build.git/+archive/refs/tags/android-mainline-12.0.0_r32/tools/zipalign.tar.gz"
+    download(url, os.path.basename(url), "src/zipalign")
+
+    # etc1tool
+    url = "https://android.googlesource.com/platform/development/+archive/refs/tags/android-mainline-12.0.0_r32/tools/etc1tool.tar.gz"
+    download(url, os.path.basename(url), "src/etc1tool")
+
+    # libbuildversion
+    url = "https://android.googlesource.com/platform/build/soong/+archive/master/cc/libbuildversion.tar.gz"
+    download(url, os.path.basename(url), "src/libbuildversion")
+
+    # git clone submodules
+    os.system("git submodule update --depth=1 --init --recursive")
+    os.system("git submodule update --depth=1 --remote")
+    
+    patch()
+    
+    print("download success!!")
+
+if __name__ == "__main__":
+    main()
+    
+    

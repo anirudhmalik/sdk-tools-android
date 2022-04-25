@@ -1,3 +1,17 @@
+set(INCLUDES
+    ${SRC}/base/libs/androidfw/include
+    ${SRC}/expat/lib
+    ${SRC}/fmtlib/include
+    ${SRC}/libpng
+    ${SRC}/libbase/include
+    ${SRC}/core/libutils/include
+    ${SRC}/core/libsystem/include
+    ${SRC}/logging/liblog/include
+    ${SRC}/libbuildversion/include
+    ${SRC}/incremental_delivery/incfs/util/include 
+    ${SRC}/incremental_delivery/incfs/kernel-headers
+)
+
 add_library(libaapt STATIC
     ${SRC}/base/tools/aapt/AaptAssets.cpp
     ${SRC}/base/tools/aapt/AaptConfig.cpp
@@ -20,24 +34,21 @@ add_library(libaapt STATIC
     ${SRC}/base/tools/aapt/XMLNode.cpp
     ${SRC}/base/tools/aapt/ZipEntry.cpp
     ${SRC}/base/tools/aapt/ZipFile.cpp
-    )
-    
-add_definitions(-DSTATIC_ANDROIDFW_FOR_TOOLS)
-include_directories(
-    ${SRC}/base/libs/androidfw/include
-    ${SRC}/expat/lib
-    ${SRC}/fmtlib/include
-    ${SRC}/libpng
-    ${SRC}/libbase/include
-    ${SRC}/core/libutils/include
-    ${SRC}/core/libsystem/include
-    ${SRC}/logging/liblog/include
-    ${SRC}/libbuildversion/include
-    ${SRC}/incremental_delivery/incfs/util/include 
-    ${SRC}/incremental_delivery/incfs/kernel-headers
-    )
-    
+)
+target_compile_definitions(libaapt PRIVATE 
+    -DSTATIC_ANDROIDFW_FOR_TOOLS
+)
+target_include_directories(libaapt PRIVATE
+    ${INCLUDES}
+)
+
 add_executable(aapt ${SRC}/base/tools/aapt/Main.cpp)
+target_compile_definitions(aapt PRIVATE 
+    -DSTATIC_ANDROIDFW_FOR_TOOLS
+)
+target_include_directories(aapt PRIVATE
+    ${INCLUDES}
+)
 target_link_libraries(aapt
     libaapt
     libandroidfw
@@ -45,7 +56,9 @@ target_link_libraries(aapt
     libutils
     libcutils
     libselinux
+    libsepol
     libziparchive
+    libpackagelistparser
     libbase
     libbuildversion
     libprocessgroup
@@ -53,9 +66,11 @@ target_link_libraries(aapt
     expat
     crypto
     jsoncpp_static
+    pcre2-8
     png_static
     c++_static
     dl
-    )
+    z
+)
     
     

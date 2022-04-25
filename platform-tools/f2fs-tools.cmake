@@ -1,18 +1,19 @@
-add_definitions(
+set(DEFINITIONS
     -DF2FS_MAJOR_VERSION=1
     -DF2FS_MINOR_VERSION=13
     -DF2FS_TOOLS_VERSION="1.13.0"
     -DF2FS_TOOLS_DATE="2020-06-05"
     -DWITH_ANDROID
-    )
+)
 
-include_directories(
+set(INCLUDES
     ${SRC}/f2fs-tools/include
     ${SRC}/e2fsprogs/lib
     ${SRC}/e2fsprogs/lib/uuid
     ${SRC}/lz4/lib
-    ${SRC}/system/core/libsparse/include
-    )
+    ${SRC}/core/libsparse/include
+    ${SRC}/core/libcutils/include
+)
 
 add_executable(make_f2fs 
     ${SRC}/f2fs-tools/lib/libf2fs.c
@@ -22,15 +23,21 @@ add_executable(make_f2fs
     ${SRC}/f2fs-tools/lib/nls_utf8.c
     ${SRC}/f2fs-tools/lib/libf2fs_io.c
     ${SRC}/f2fs-tools/mkfs/f2fs_format_main.c
-    )
-target_compile_definitions(make_f2fs PRIVATE -DWITH_BLKDISCARD)
+)
+target_compile_definitions(make_f2fs PRIVATE 
+    -DWITH_BLKDISCARD
+    ${DEFINITIONS}
+)
+target_include_directories(make_f2fs PRIVATE
+    ${INCLUDES}
+)
 target_link_libraries(make_f2fs
     libext2_uuid
     libbase
     libsparse
     dl
     z
-    )
+)
     
 add_executable(make_f2fs_casefold 
     ${SRC}/f2fs-tools/lib/libf2fs.c
@@ -40,18 +47,22 @@ add_executable(make_f2fs_casefold
     ${SRC}/f2fs-tools/lib/nls_utf8.c
     ${SRC}/f2fs-tools/lib/libf2fs_io.c
     ${SRC}/f2fs-tools/mkfs/f2fs_format_main.c
-    )
+)
 target_compile_definitions(make_f2fs_casefold PRIVATE 
     -DCONF_CASEFOLD
     -DCONF_PROJID
-    )
+    ${DEFINITIONS}
+)
+target_include_directories(make_f2fs_casefold PRIVATE
+    ${INCLUDES}
+)
 target_link_libraries(make_f2fs_casefold
     libext2_uuid
     libbase
     libsparse
     dl
     z
-    )
+)
 
 add_executable(sload_f2fs
     ${SRC}/f2fs-tools/fsck/dir.c
@@ -72,10 +83,18 @@ add_executable(sload_f2fs
     ${SRC}/f2fs-tools/fsck/fsck.c
     ${SRC}/f2fs-tools/fsck/sload.c
     ${SRC}/f2fs-tools/fsck/compress.c
-    )
-target_compile_definitions(sload_f2fs PRIVATE -DWITH_SLOAD)
+)
+target_compile_definitions(sload_f2fs PRIVATE 
+    -DWITH_SLOAD
+    ${DEFINITIONS}
+)
+target_include_directories(sload_f2fs PRIVATE
+    ${INCLUDES}
+)
 target_link_libraries(sload_f2fs
     libselinux
+    libsepol
+    libpackagelistparser
     libsparse
     libbase
     libcutils
@@ -84,6 +103,5 @@ target_link_libraries(sload_f2fs
     lz4_static
     dl
     z
-    )
-    
+)
     

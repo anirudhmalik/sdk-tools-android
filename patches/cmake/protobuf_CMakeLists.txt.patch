@@ -1,0 +1,11 @@
+--- a/src/protobuf/cmake/CMakeLists.txt	2022-04-25 14:34:59.904207198 +0800
++++ b/src/protobuf/cmake/CMakeLists.txt	2022-04-23 21:36:26.679512149 +0800
+@@ -29,7 +29,7 @@
+ endif()
+ 
+ # Options
+-option(protobuf_BUILD_TESTS "Build tests" ON)
++option(protobuf_BUILD_TESTS "Build tests" OFF)
+ option(protobuf_BUILD_CONFORMANCE "Build conformance tests" OFF)
+ option(protobuf_BUILD_EXAMPLES "Build examples" OFF)
+ option(protobuf_BUILD_PROTOC_BINARIES "Build libprotoc and protoc compiler" ON)

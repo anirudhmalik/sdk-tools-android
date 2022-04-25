@@ -4,7 +4,7 @@
  #include "base/enums.h"
  #include "base/macros.h"
  
-+// from aosp/art/build/art.go
++// see aosp/art/build/art.go
 +// We need larger stack overflow guards for ASAN, as the compiled code will hav
 +// larger frame sizes. For simplicity, just use global not-target-specific cflags.
 +// Note: We increase this for both debug and non-debug, as the overflow gap will
@@ -32,7 +32,7 @@
 +#define ART_STACK_OVERFLOW_GAP_x86 16384
 +#define ART_STACK_OVERFLOW_GAP_x86_64 20480
 +
-+// from aosp/art/build/art.go
++// see aosp/art/build/art.go
 +// default frame size limit: 1736
 +// device limit: 7400
 +// host limit: 6400

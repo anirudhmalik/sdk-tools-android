@@ -4,7 +4,7 @@
  #define MAP_ANONYMOUS MAP_ANON
  #endif
  
-+// from aosp/build/soong/android/config.go
++// see aosp/build/soong/android/config.go
 +/*
 +func (c *config) LibartImgHostBaseAddress() string {
 +	return "0x60000000"

@@ -5,9 +5,9 @@ add_library(libsparse STATIC
     ${SRC}/core/libsparse/sparse_crc32.cpp
     ${SRC}/core/libsparse/sparse_err.cpp
     ${SRC}/core/libsparse/sparse_read.cpp
-    )
+)
 
-target_include_directories(libsparse PUBLIC
+target_include_directories(libsparse PRIVATE
     ${SRC}/core/libsparse/include 
     ${SRC}/libbase/include
-    )
+)

@@ -6,39 +6,25 @@ enable_language(ASM)
 # set global cflags and cxxflags
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fcolor-diagnostics -fPIC -Wno-attributes -std=gnu11")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fcolor-diagnostics -fPIC -Wno-attributes -std=gnu++2a")
+# static link
 set(CMAKE_EXE_LINKER_FLAGS "-static")
 
-set(TOOLS_VERSION 31.0.3)
+set(TOOLS_VERSION 33.0.1)
 set(SRC ${PROJECT_SOURCE_DIR}/src)
 
 # 64-bit off_t for lseek.
 add_definitions(-D_FILE_OFFSET_BITS=64)
 
-# git clone submodule
-execute_process(COMMAND git submodule --quiet update)
-
-if(NOT EXISTS ${SRC}/incremental_delivery/sysprop/include)
-    execute_process(
-        COMMAND mkdir src/incremental_delivery/sysprop/include
-        COMMAND cp patches/IncrementalProperties.sysprop.h src/incremental_delivery/sysprop/include
-        COMMAND cp patches/IncrementalProperties.sysprop.cpp src/incremental_delivery/sysprop
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    )
-endif()
-
-if(NOT EXISTS ${SRC}/adb/fastdeploy/deployagent/deployagent.inc
-  OR NOT EXISTS ${SRC}/adb/fastdeploy/deployagent/deployagentscript.inc)
-    execute_process(
-        COMMAND cp patches/deployagent.inc src/adb/fastdeploy/deployagent/deployagent.inc
-        COMMAND cp patches/deployagentscript.inc src/adb/fastdeploy/deployagent/deployagentscript.inc
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    )
-endif()
+add_custom_target(aprotoc
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    DEPENDS protobuf::protoc
+    COMMENT "generate the protoc executable file"
+)
 
 # thrid-party libraries
 add_subdirectory(src/boringssl EXCLUDE_FROM_ALL)
 add_subdirectory(src/fmtlib EXCLUDE_FROM_ALL)
-add_subdirectory(src/pcre/dist2 EXCLUDE_FROM_ALL)
+add_subdirectory(src/pcre EXCLUDE_FROM_ALL)
 add_subdirectory(src/libpng EXCLUDE_FROM_ALL)
 add_subdirectory(src/expat EXCLUDE_FROM_ALL)
 add_subdirectory(src/zopfli EXCLUDE_FROM_ALL)
@@ -46,8 +32,8 @@ add_subdirectory(src/jsoncpp EXCLUDE_FROM_ALL)
 add_subdirectory(src/zstd/build/cmake EXCLUDE_FROM_ALL)
 add_subdirectory(src/lz4/build/cmake EXCLUDE_FROM_ALL)
 add_subdirectory(src/brotli EXCLUDE_FROM_ALL)
-#add_subdirectory(src/protobuf/cmake EXCLUDE_FROM_ALL)
-#add_subdirectory(src/abseil-cpp EXCLUDE_FROM_ALL)
+add_subdirectory(src/abseil-cpp EXCLUDE_FROM_ALL)
+add_subdirectory(src/protobuf/cmake EXCLUDE_FROM_ALL)
 
 # building sdk-tools
 add_subdirectory(lib)

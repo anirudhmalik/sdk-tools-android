@@ -7,26 +7,53 @@ file(GLOB_RECURSE PROTO_FILES ${AAPT2_PROTO_DIR}/*.proto)
 foreach(proto ${PROTO_FILES})
     get_filename_component(FIL_WE ${proto} NAME_WE)
     
+    # execute the protoc command to generate the proto targets
+    execute_process(
+        COMMAND ${CMAKE_BINARY_DIR}/bin/protoc ${proto}
+        --proto_path=${AAPT2_PROTO_DIR}
+        --cpp_out=${AAPT2_PROTO_DIR}
+        WORKING_DIRECTORY ${AAPT2_PROTO_DIR}
+    )
+        
     set(TARGET_CPP_FILE "${AAPT2_PROTO_DIR}/${FIL_WE}.pb.cc")
     set(TARGET_HEAD_FILE "${AAPT2_PROTO_DIR}/${FIL_WE}.pb.h")
     
     if(EXISTS ${TARGET_CPP_FILE} AND EXISTS ${TARGET_HEAD_FILE})
         list(APPEND AAPT2_PROTO_SRC ${TARGET_CPP_FILE})
         list(APPEND AAPT2_PROTO_HDRS ${TARGET_HEAD_FILE})
-    else()
-        # execute the protoc command to generate the proto targets
-        execute_process(
-            COMMAND ${CMAKE_BINARY_DIR}/bin/protoc ${proto}
-            --proto_path=${AAPT2_PROTO_DIR}
-            --cpp_out=${AAPT2_PROTO_DIR}
-            WORKING_DIRECTORY ${AAPT2_PROTO_DIR}
-        )
+        
         message(STATUS "generate cpp file ${TARGET_CPP_FILE}")
         message(STATUS "generate head file ${TARGET_HEAD_FILE}")
     endif()
 endforeach()
 
 set_source_files_properties(${AAPT2_PROTO_SRC} ${AAPT2_PROTO_HDRS} PROPERTIES GENERATED TRUE)
+
+set(INCLUDES
+    ${SRC}/base/tools/aapt2
+    ${SRC}/protobuf/src
+    ${SRC}/logging/liblog/include
+    ${SRC}/expat/lib
+    ${SRC}/fmtlib/include
+    ${SRC}/libpng
+    ${SRC}/libbase/include
+    ${SRC}/base/libs/androidfw/include
+    ${SRC}/base/cmds/idmap2/libidmap2_policies/include
+    ${SRC}/core/libsystem/include
+    ${SRC}/core/libutils/include
+    ${SRC}/boringssl/third_party/googletest/include
+    ${SRC}/libziparchive/include 
+    ${SRC}/libbuildversion/include
+    ${SRC}/incremental_delivery/incfs/util/include 
+    ${SRC}/incremental_delivery/incfs/kernel-headers
+)
+
+set(COMPILE_FLAGS
+    -Wno-unused-parameter
+    -Wno-missing-field-initializers
+    -fno-exceptions 
+    -fno-rtti
+)
 
 set(TOOL_SOURCE
     ${SRC}/base/tools/aapt2/cmd/Command.cpp
@@ -37,7 +64,7 @@ set(TOOL_SOURCE
     ${SRC}/base/tools/aapt2/cmd/Link.cpp
     ${SRC}/base/tools/aapt2/cmd/Optimize.cpp
     ${SRC}/base/tools/aapt2/cmd/Util.cpp
-    )
+)
     
 # build the host static library: aapt2
 add_library(libaapt2 STATIC
@@ -116,43 +143,34 @@ add_library(libaapt2 STATIC
     ${SRC}/base/tools/aapt2/Configuration.proto
     ${SRC}/base/tools/aapt2/Resources.proto
     ${SRC}/base/tools/aapt2/ResourcesInternal.proto
+    ${SRC}/base/tools/aapt2/ValueTransformer.cpp
     ${AAPT2_PROTO_SRC} ${AAPT2_PROTO_HDRS}
-    )
-
-set(INCLUDE_PATH
-    ${SRC}/base/tools/aapt2
-    ${SRC}/protobuf/src
-    ${SRC}/logging/liblog/include
-    ${SRC}/expat/lib
-    ${SRC}/fmtlib/include
-    ${SRC}/libpng
-    ${SRC}/libbase/include
-    ${SRC}/base/libs/androidfw/include
-    ${SRC}/base/cmds/idmap2/libidmap2_policies/include
-    ${SRC}/core/libsystem/include
-    ${SRC}/core/libutils/include
-    ${SRC}/boringssl/third_party/googletest/include
-    ${SRC}/libziparchive/include 
-    ${SRC}/libbuildversion/include
-    ${SRC}/incremental_delivery/incfs/util/include 
-    ${SRC}/incremental_delivery/incfs/kernel-headers
-    )
-target_include_directories(libaapt2 PUBLIC ${INCLUDE_PATH})
+)
+target_include_directories(libaapt2 PRIVATE
+    ${INCLUDES}
+)
+target_compile_options(libaapt2 PRIVATE ${COMPILE_FLAGS})
 
 # build the host shared library: aapt2_jni
 add_library(libaapt2_jni SHARED
     ${SRC}/base/tools/aapt2/jni/aapt2_jni.cpp
     ${TOOL_SOURCE}
-    )
-target_include_directories(libaapt2_jni PUBLIC ${INCLUDE_PATH})
+)
+target_include_directories(libaapt2_jni PRIVATE
+    ${INCLUDES}
+)
+target_compile_options(libaapt2_jni PRIVATE ${COMPILE_FLAGS})
 target_link_libraries(libaapt2_jni libaapt2)
 
 # build the executable file aapt2
 add_executable(aapt2
     ${SRC}/base/tools/aapt2/Main.cpp
     ${TOOL_SOURCE}
-    )
-target_include_directories(aapt2 PUBLIC ${INCLUDE_PATH})
+)
+target_include_directories(aapt2 PRIVATE
+    ${INCLUDES}
+)
+target_compile_options(aapt2 PRIVATE ${COMPILE_FLAGS})
 target_link_libraries(aapt2 
     libaapt2
     libandroidfw 
@@ -165,8 +183,9 @@ target_link_libraries(aapt2
     libziparchive
     libbase
     libbuildversion
-    libprotoc
     liblog
+    protobuf::libprotoc
+    protobuf::libprotobuf
     expat
     png_static
     pcre2-8
@@ -174,4 +193,4 @@ target_link_libraries(aapt2
     ssl
     c++_static
     dl
-    )
+)

@@ -1,26 +1,62 @@
-file(GLOB_RECURSE SRC_FILES 
-    ${SRC}/openscreen/discovery/dnssd/impl/*.cc
-    ${SRC}/openscreen/discovery/dnssd/public/*.cc
-    ${SRC}/openscreen/discovery/mdns/*.cc
-    ${SRC}/openscreen/discovery/mdns/public/*.cc
-    ${SRC}/openscreen/platform/api/*.cc
-    ${SRC}/openscreen/platform/base/*.cc
-    ${SRC}/openscreen/platform/impl/*.cc
-    ${SRC}/openscreen/util/*.cc
-    )
+add_library(libopenscreen STATIC 
+    ${SRC}/openscreen/discovery/dnssd/impl/conversion_layer.cc
+    ${SRC}/openscreen/discovery/dnssd/impl/dns_data_graph.cc
+    ${SRC}/openscreen/discovery/dnssd/impl/instance_key.cc
+    ${SRC}/openscreen/discovery/dnssd/impl/network_interface_config.cc
+    ${SRC}/openscreen/discovery/dnssd/impl/publisher_impl.cc
+    ${SRC}/openscreen/discovery/dnssd/impl/querier_impl.cc
+    ${SRC}/openscreen/discovery/dnssd/impl/service_dispatcher.cc
+    ${SRC}/openscreen/discovery/dnssd/impl/service_instance.cc
+    ${SRC}/openscreen/discovery/dnssd/impl/service_key.cc
+    ${SRC}/openscreen/discovery/dnssd/public/dns_sd_instance.cc
+    ${SRC}/openscreen/discovery/dnssd/public/dns_sd_instance_endpoint.cc
+    ${SRC}/openscreen/discovery/dnssd/public/dns_sd_txt_record.cc
+    ${SRC}/openscreen/discovery/mdns/mdns_probe.cc
+    ${SRC}/openscreen/discovery/mdns/mdns_probe_manager.cc
+    ${SRC}/openscreen/discovery/mdns/mdns_publisher.cc
+    ${SRC}/openscreen/discovery/mdns/mdns_querier.cc
+    ${SRC}/openscreen/discovery/mdns/mdns_reader.cc
+    ${SRC}/openscreen/discovery/mdns/mdns_receiver.cc
+    ${SRC}/openscreen/discovery/mdns/mdns_records.cc
+    ${SRC}/openscreen/discovery/mdns/mdns_responder.cc
+    ${SRC}/openscreen/discovery/mdns/mdns_sender.cc
+    ${SRC}/openscreen/discovery/mdns/mdns_service_impl.cc
+    ${SRC}/openscreen/discovery/mdns/mdns_trackers.cc
+    ${SRC}/openscreen/discovery/mdns/mdns_writer.cc
+    ${SRC}/openscreen/discovery/mdns/public/mdns_service.cc
+    ${SRC}/openscreen/platform/base/error.cc
+    ${SRC}/openscreen/platform/base/interface_info.cc
+    ${SRC}/openscreen/platform/base/ip_address.cc
+    ${SRC}/openscreen/platform/base/udp_packet.cc
+    ${SRC}/openscreen/platform/api/udp_socket.cc
+    ${SRC}/openscreen/util/alarm.cc
+    ${SRC}/openscreen/util/big_endian.cc
+    ${SRC}/openscreen/platform/impl/time.cc
+    ${SRC}/openscreen/platform/impl/network_interface.cc
+    ${SRC}/openscreen/platform/impl/network_interface_linux.cc
+)
 
-foreach(file ${SRC_FILES})
-    if(${file} MATCHES ".*_mac.cc" OR ${file} MATCHES "base64.cc"
-        OR ${file} MATCHES ".*_unittest.cc")
-        list(REMOVE_ITEM SRC_FILES ${file})
-    endif()
-endforeach()
+target_compile_options(libopenscreen PRIVATE 
+    -fno-strict-aliasing
+    -Wno-address-of-packed-member
+    -Wno-array-bounds
+    -Wno-pointer-sign
+    -Wno-unused
+    -Wno-unused-but-set-variable
+    -Wno-unused-parameter
+    -Wno-missing-field-initializers
+    -Werror=implicit-function-declaration
+)
 
-add_library(libopenscreen STATIC ${SRC_FILES})
-target_include_directories(libopenscreen PUBLIC
+target_compile_options(libopenscreen PRIVATE 
+    -std=c++17
+    -fno-exceptions 
+    -fno-unwind-tables 
+    -fno-asynchronous-unwind-tables
+)
+
+target_include_directories(libopenscreen PRIVATE
     ${SRC}/openscreen
-    ${SRC}/jsoncpp/include
     ${SRC}/abseil-cpp
-    ${SRC}/boringssl/include
-    )
+)
     

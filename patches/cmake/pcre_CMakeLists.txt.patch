@@ -1,0 +1,32 @@
+--- a/src/pcre/CMakeLists.txt	2022-04-25 15:08:32.794407720 +0800
++++ b/src/pcre/CMakeLists.txt	2022-04-25 15:07:16.377733440 +0800
+@@ -123,9 +123,16 @@
+ 
+ INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/src)
+ 
++option(PCRE_BUILD_ZLIB "Custom zlib Location, else find_package is used" ON)
++if (PCRE_BUILD_ZLIB)
++  set(ZLIB_LIBRARIES z)
++endif()
++
+ # external packages
+ FIND_PACKAGE( BZip2 )
+-FIND_PACKAGE( ZLIB )
++if(NOT PCRE_BUILD_ZLIB)
++  FIND_PACKAGE( ZLIB )
++endif()
+ FIND_PACKAGE( Readline )
+ FIND_PACKAGE( Editline )
+ 
+@@ -300,9 +307,9 @@
+ ENDIF(PCRE2_SUPPORT_LIBBZ2)
+ 
+ # zlib
+-IF(ZLIB_FOUND)
++IF(ZLIB_FOUND OR PCRE_BUILD_ZLIB)
+   OPTION (PCRE2_SUPPORT_LIBZ "Enable support for linking pcre2grep with libz." ON)
+-ENDIF(ZLIB_FOUND)
++ENDIF(ZLIB_FOUND OR PCRE_BUILD_ZLIB)
+ IF(PCRE2_SUPPORT_LIBZ)
+   INCLUDE_DIRECTORIES(${ZLIB_INCLUDE_DIR})
+ ENDIF(PCRE2_SUPPORT_LIBZ)

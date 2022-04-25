@@ -34,10 +34,6 @@
     shallow = true
     path = src/libbase
     url = https://android.googlesource.com/platform/system/libbase
-[submodule "src/libziparchive"]
-    shallow = true
-    path = src/libziparchive
-    url = https://android.googlesource.com/platform/system/libziparchive
 [submodule "src/base"]
     shallow = true
     path = src/base
@@ -130,11 +126,11 @@
     shallow = true
     path = src/mdnsresponder
     url = https://android.googlesource.com/platform/external/mdnsresponder
-[submodule "src/openscreen"]
-    shallow = true
-    path = src/openscreen
-    url = https://chromium.googlesource.com/openscreen
 [submodule "src/abseil-cpp"]
     shallow = true
     path = src/abseil-cpp
     url = https://android.googlesource.com/platform/external/abseil-cpp
+[submodule "src/openscreen"]
+    shallow = true
+	path = src/openscreen
+	url = https://android.googlesource.com/platform/external/openscreen

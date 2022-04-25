@@ -160,17 +160,17 @@ add_library(libprotoc STATIC
     ${SRC}/protobuf/src/google/protobuf/compiler/ruby/ruby_generator.cc
     ${SRC}/protobuf/src/google/protobuf/compiler/subprocess.cc
     ${SRC}/protobuf/src/google/protobuf/compiler/zip_writer.cc
-    )
+)
 
 target_compile_definitions(libprotoc PRIVATE -DHAVE_ZLIB=1)
-target_include_directories(libprotoc PUBLIC 
+target_include_directories(libprotoc PRIVATE 
     ${SRC}/protobuf/android
     ${SRC}/protobuf/src
-    )
+)
     
 add_executable(protoc ${SRC}/protobuf/src/google/protobuf/compiler/main.cc)
-target_include_directories(protoc PUBLIC 
+target_include_directories(protoc PRIVATE 
     ${SRC}/protobuf/android
     ${SRC}/protobuf/src
-    )
+)
 target_link_libraries(protoc libprotoc liblog dl z)

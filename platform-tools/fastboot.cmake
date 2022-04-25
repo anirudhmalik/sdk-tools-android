@@ -2,14 +2,14 @@ add_library(libext4 STATIC
     ${SRC}/extras/ext4_utils/ext4_utils.cpp
     ${SRC}/extras/ext4_utils/wipe.cpp
     ${SRC}/extras/ext4_utils/ext4_sb.cpp
-    )
-target_include_directories(libext4 PUBLIC
+)
+target_include_directories(libext4 PRIVATE
     ${SRC}/core/libsparse/include 
     ${SRC}/core/include 
     ${SRC}/selinux/libselinux/include
     ${SRC}/extras/ext4_utils/include 
     ${SRC}/libbase/include
-    )
+)
 
 add_library(libfsmgr STATIC
     ${SRC}/core/fs_mgr/liblp/images.cpp
@@ -17,14 +17,15 @@ add_library(libfsmgr STATIC
     ${SRC}/core/fs_mgr/liblp/reader.cpp
     ${SRC}/core/fs_mgr/liblp/utility.cpp
     ${SRC}/core/fs_mgr/liblp/writer.cpp
-    )
+)
 target_include_directories(libfsmgr PRIVATE
     ${SRC}/core/fs_mgr/liblp/include 
     ${SRC}/libbase/include
     ${SRC}/extras/ext4_utils/include 
     ${SRC}/core/libsparse/include
     ${SRC}/boringssl/include
-    )
+    ${SRC}/core/libcutils/include
+)
 target_link_libraries(libfsmgr PUBLIC fmt::fmt)
 
 add_executable(fastboot
@@ -39,9 +40,10 @@ add_executable(fastboot
     ${SRC}/core/fastboot/usb_linux.cpp
     ${SRC}/core/fastboot/vendor_boot_img_utils.cpp
     ${SRC}/core/fastboot/util.cpp
-    )
+)
 
 target_include_directories(fastboot PRIVATE
+    ${SRC}/avb
     ${SRC}/libbase/include 
     ${SRC}/libbuildversion/include 
     ${SRC}/core/include 
@@ -49,18 +51,19 @@ target_include_directories(fastboot PRIVATE
     ${SRC}/core/libsparse/include
     ${SRC}/core/fs_mgr/liblp/include 
     ${SRC}/core/fs_mgr/libstorage_literals 
-    ${SRC}/core/libziparchive/include
+    ${SRC}/libziparchive/include
     ${SRC}/extras/ext4_utils/include 
     ${SRC}/extras/f2fs_utils
     ${SRC}/mkbootimg/include/bootimg
-    ${SRC}/avb
-    )
+    ${SRC}/core/diagnose_usb/include
+    ${SRC}/boringssl/third_party/googletest/include
+)
 target_compile_definitions(fastboot PRIVATE
     -DANDROID_BASE_UNIQUE_FD_DISABLE_IMPLICIT_CONVERSION
     -D_GNU_SOURCE 
     -D_XOPEN_SOURCE=700 
     -DUSE_F2FS
-    )
+)
 target_link_libraries(fastboot
     libdiagnoseusb
     libsparse 
@@ -79,4 +82,4 @@ target_link_libraries(fastboot
     c++_static
     dl
     z
-    )
+)

@@ -1,0 +1,21 @@
+--- a/src/abseil-cpp/CMakeLists.txt	2022-04-25 16:02:18.221395699 +0800
++++ b/src/abseil-cpp/CMakeLists.txt	2022-04-25 16:31:54.228239288 +0800
+@@ -69,7 +69,7 @@
+ 
+ option(ABSL_PROPAGATE_CXX_STD
+   "Use CMake C++ standard meta features (e.g. cxx_std_11) that propagate to targets that link to Abseil"
+-  OFF)  # TODO: Default to ON for CMake 3.8 and greater.
++  ON)  # TODO: Default to ON for CMake 3.8 and greater.
+ if((${CMAKE_VERSION} VERSION_GREATER_EQUAL 3.8) AND (NOT ABSL_PROPAGATE_CXX_STD))
+   message(WARNING "A future Abseil release will default ABSL_PROPAGATE_CXX_STD to ON for CMake 3.8 and up. We recommend enabling this option to ensure your project still builds correctly.")
+ endif()
+@@ -125,8 +125,7 @@
+   "If ON, abseil will download HEAD from GoogleTest at config time." OFF)
+ 
+ set(ABSL_GOOGLETEST_DOWNLOAD_URL "" CACHE STRING "If set, download GoogleTest from this URL")
+-
+-set(ABSL_LOCAL_GOOGLETEST_DIR "/usr/src/googletest" CACHE PATH
++set(ABSL_LOCAL_GOOGLETEST_DIR "${CMAKE_SOURCE_DIR}/src/protobuf/third_party/googletest" CACHE PATH
+   "If ABSL_USE_GOOGLETEST_HEAD is OFF and ABSL_GOOGLETEST_URL is not set, specifies the directory of a local GoogleTest checkout."
+   )
+ 

@@ -8,16 +8,17 @@ add_library(libbase STATIC
     ${SRC}/libbase/mapped_file.cpp
     ${SRC}/libbase/parsebool.cpp
     ${SRC}/libbase/parsenetaddress.cpp
+    ${SRC}/libbase/posix_strerror_r.cpp
     ${SRC}/libbase/process.cpp
     ${SRC}/libbase/properties.cpp
     ${SRC}/libbase/stringprintf.cpp
     ${SRC}/libbase/strings.cpp
     ${SRC}/libbase/test_utils.cpp
     ${SRC}/libbase/threads.cpp
-    )
+)
 
-target_include_directories(libbase PUBLIC
+target_include_directories(libbase PRIVATE
     ${SRC}/libbase/include 
     ${SRC}/core/include 
     ${SRC}/logging/liblog/include
-    )
+)

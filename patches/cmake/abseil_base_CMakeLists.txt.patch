@@ -1,0 +1,11 @@
+--- a/src/abseil-cpp/absl/base/CMakeLists.txt	2022-04-25 14:25:57.357486484 +0800
++++ b/src/abseil-cpp/absl/base/CMakeLists.txt	2022-04-24 19:42:50.270773482 +0800
+@@ -191,7 +191,7 @@
+     ${ABSL_DEFAULT_COPTS}
+   LINKOPTS
+     ${ABSL_DEFAULT_LINKOPTS}
+-    $<$<BOOL:${LIBRT}>:-lrt>
++    $<$<BOOL:${LIBRT}>:-lc>
+     $<$<BOOL:${MINGW}>:"advapi32">
+   DEPS
+     absl::atomic_hook

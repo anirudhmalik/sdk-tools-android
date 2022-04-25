@@ -1,0 +1,24 @@
+--- a/src/libpng/CMakeLists.txt	2022-04-25 14:42:05.977582977 +0800
++++ b/src/libpng/CMakeLists.txt	2022-04-25 14:51:46.854307509 +0800
+@@ -36,18 +36,18 @@
+ 
+ # Allow users to specify location of Zlib.
+ # Useful if zlib is being built alongside this as a sub-project.
+-option(PNG_BUILD_ZLIB "Custom zlib Location, else find_package is used" OFF)
++option(PNG_BUILD_ZLIB "Custom zlib Location, else find_package is used" ON)
+ 
+ if(NOT PNG_BUILD_ZLIB)
+   find_package(ZLIB REQUIRED)
+   include_directories(${ZLIB_INCLUDE_DIR})
+ endif()
+ 
+-if(UNIX AND NOT APPLE AND NOT BEOS AND NOT HAIKU)
++if(UNIX AND NOT APPLE AND NOT BEOS AND NOT HAIKU AND NOT ANDROID)
+   find_library(M_LIBRARY m)
+ else()
+   # libm is not needed and/or not available
+-  set(M_LIBRARY "")
++  set(M_LIBRARY "m")
+ endif()
+ 
+ # COMMAND LINE OPTIONS

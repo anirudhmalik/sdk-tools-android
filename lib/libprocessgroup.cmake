@@ -6,16 +6,16 @@ add_library(libprocessgroup STATIC
     ${SRC}/core/libprocessgroup/cgrouprc_format/cgroup_controller.cpp
     ${SRC}/core/libprocessgroup/cgrouprc/cgroup_controller.cpp
     ${SRC}/core/libprocessgroup/cgrouprc/cgroup_file.cpp
-    )
+)
 
-target_include_directories(libprocessgroup PUBLIC 
+target_include_directories(libprocessgroup PRIVATE 
     ${SRC}/core/libprocessgroup/include
     ${SRC}/core/libprocessgroup/cgrouprc/include
     ${SRC}/core/libprocessgroup/cgrouprc_format/include
     ${SRC}/libbase/include
     ${SRC}/core/libcutils/include
     ${SRC}/jsoncpp/include
-    )
+)
 target_include_directories(libprocessgroup PRIVATE
     ${SRC}/core/libprocessgroup
-    )
+)

@@ -1,7 +1,7 @@
 add_executable(sqlite3 
     ${SRC}/sqlite/dist/sqlite3.c
     ${SRC}/sqlite/dist/shell.c
-    )
+)
     
 target_compile_definitions(sqlite3 PRIVATE 
     -DNDEBUG=1
@@ -32,5 +32,5 @@ target_compile_definitions(sqlite3 PRIVATE
     -DHAVE_MALLOC_USABLE_SIZE
     -DSQLITE_ENABLE_DBSTAT_VTAB
     -DNO_ANDROID_FUNCS=1
-    )
-target_link_libraries(sqlite3 dl)
+)
+target_link_libraries(sqlite3 dl z)

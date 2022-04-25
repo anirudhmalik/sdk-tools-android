@@ -13,12 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 #ifndef BUILD_VERSION_H
 #define BUILD_VERSION_H
+
 #include <string>
+
 namespace android {
 namespace build {
+
 std::string GetBuildNumber();
+
 } // namespace build
 } // namespace android
+
 #endif  // BUILD_VERSION_H
