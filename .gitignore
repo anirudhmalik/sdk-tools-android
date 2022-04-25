@@ -13,5 +13,6 @@ pack
 src/libziparchive/cli-tests
 src/libziparchive/testdata
 src/zipalign/tests/data
+
 **/*.zip
 **/*.apk
