@@ -52,6 +52,7 @@ set(CPACK_SOURCE_IGNORE_FILES
     ${PROJECT_SOURCE_DIR}/.git
     ${PROJECT_SOURCE_DIR}/.gitignore
     ${PROJECT_SOURCE_DIR}/.gitmodules
+    ${PROJECT_SOURCE_DIR}/get_source.py
     ${PROJECT_SOURCE_DIR}/build
     ${PROJECT_SOURCE_DIR}/patches
     ${PROJECT_SOURCE_DIR}/pack
