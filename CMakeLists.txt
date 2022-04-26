@@ -38,7 +38,7 @@ add_custom_target(aprotoc
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     DEPENDS protobuf::protoc
     COMMENT "generate the protoc executable file"
-)
+    )
 
 # thrid-party libraries
 add_subdirectory(src/boringssl EXCLUDE_FROM_ALL)
@@ -72,7 +72,7 @@ set(CPACK_SOURCE_IGNORE_FILES
     ${PROJECT_SOURCE_DIR}/build
     ${PROJECT_SOURCE_DIR}/patches
     ${PROJECT_SOURCE_DIR}/pack
-)
+    )
     
 include(CPack)
 
