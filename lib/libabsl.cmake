@@ -1,3 +1,19 @@
+#
+# Copyright © 2022 Github Lzhiyong
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 add_library(libabsl_base STATIC
     ${SRC}/abseil-cpp/absl/base/internal/cycleclock.cc
     ${SRC}/abseil-cpp/absl/base/internal/exponential_biased.cc
@@ -11,10 +27,10 @@ add_library(libabsl_base STATIC
     ${SRC}/abseil-cpp/absl/base/internal/thread_identity.cc
     ${SRC}/abseil-cpp/absl/base/internal/throw_delegate.cc
     ${SRC}/abseil-cpp/absl/base/internal/unscaledcycleclock.cc
-)
+    )
 target_include_directories(libabsl_base PUBLIC
     ${SRC}/abseil-cpp
-)
+    )
 
 add_library(libabsl_strings STATIC
     ${SRC}/abseil-cpp/absl/strings/ascii.cc
@@ -42,8 +58,8 @@ add_library(libabsl_strings STATIC
     ${SRC}/abseil-cpp/absl/strings/str_split.cc
     ${SRC}/abseil-cpp/absl/strings/string_view.cc
     ${SRC}/abseil-cpp/absl/strings/substitute.cc
-)
+    )
 target_include_directories(libabsl_strings PUBLIC
     ${SRC}/abseil-cpp
-)
+    )
     

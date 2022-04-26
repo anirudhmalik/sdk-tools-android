@@ -1,3 +1,19 @@
+#
+# Copyright © 2022 Github Lzhiyong
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
@@ -13,13 +29,13 @@ endif()
 bison_target(
     LangParser ${SRC}/aidl/aidl_language_y.yy ${SRC}/aidl/aidl_language_y.cpp
     DEFINES_FILE ${SRC}/aidl/aidl_language_y.h
-)
+    )
 
 # generate aidl_language_l.h and aidl_language_l.cpp
 flex_target(
     LangScanner ${SRC}/aidl/aidl_language_l.ll ${SRC}/aidl/aidl_language_l.cpp
     DEFINES_FILE ${SRC}/aidl/aidl_language_l.h
-)
+    )
 
 # add dependency
 add_flex_bison_dependency(LangScanner LangParser)
@@ -63,13 +79,13 @@ add_executable(aidl
     ${SRC}/aidl/main.cpp
     ${BISON_LangParser_OUTPUTS}
     ${FLEX_LangScanner_OUTPUTS}
-)
+    )
     
 target_include_directories(aidl PRIVATE
     ${SRC}/libbase/include
     ${SRC}/fmtlib/include
     ${SRC}/boringssl/third_party/googletest/include
-)
+    )
     
 target_link_libraries(aidl
     libbase
@@ -77,4 +93,4 @@ target_link_libraries(aidl
     boringssl_gtest
     fmt::fmt
     c++_static
-)
+    )

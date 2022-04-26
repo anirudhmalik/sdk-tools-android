@@ -1,3 +1,19 @@
+#
+# Copyright © 2022 Github Lzhiyong
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 set(AAPT2_PROTO_SRC)  # proto source files
 set(AAPT2_PROTO_HDRS) # proto head files
 set(AAPT2_PROTO_DIR ${SRC}/base/tools/aapt2)
@@ -46,14 +62,14 @@ set(INCLUDES
     ${SRC}/libbuildversion/include
     ${SRC}/incremental_delivery/incfs/util/include 
     ${SRC}/incremental_delivery/incfs/kernel-headers
-)
+    )
 
 set(COMPILE_FLAGS
     -Wno-unused-parameter
     -Wno-missing-field-initializers
     -fno-exceptions 
     -fno-rtti
-)
+    )
 
 set(TOOL_SOURCE
     ${SRC}/base/tools/aapt2/cmd/Command.cpp
@@ -64,7 +80,7 @@ set(TOOL_SOURCE
     ${SRC}/base/tools/aapt2/cmd/Link.cpp
     ${SRC}/base/tools/aapt2/cmd/Optimize.cpp
     ${SRC}/base/tools/aapt2/cmd/Util.cpp
-)
+    )
     
 # build the host static library: aapt2
 add_library(libaapt2 STATIC
@@ -145,20 +161,16 @@ add_library(libaapt2 STATIC
     ${SRC}/base/tools/aapt2/ResourcesInternal.proto
     ${SRC}/base/tools/aapt2/ValueTransformer.cpp
     ${AAPT2_PROTO_SRC} ${AAPT2_PROTO_HDRS}
-)
-target_include_directories(libaapt2 PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(libaapt2 PRIVATE ${INCLUDES})
 target_compile_options(libaapt2 PRIVATE ${COMPILE_FLAGS})
 
 # build the host shared library: aapt2_jni
 add_library(libaapt2_jni SHARED
     ${SRC}/base/tools/aapt2/jni/aapt2_jni.cpp
     ${TOOL_SOURCE}
-)
-target_include_directories(libaapt2_jni PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(libaapt2_jni PRIVATE ${INCLUDES})
 target_compile_options(libaapt2_jni PRIVATE ${COMPILE_FLAGS})
 target_link_libraries(libaapt2_jni libaapt2)
 
@@ -166,10 +178,8 @@ target_link_libraries(libaapt2_jni libaapt2)
 add_executable(aapt2
     ${SRC}/base/tools/aapt2/Main.cpp
     ${TOOL_SOURCE}
-)
-target_include_directories(aapt2 PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(aapt2 PRIVATE ${INCLUDES})
 target_compile_options(aapt2 PRIVATE ${COMPILE_FLAGS})
 target_link_libraries(aapt2 
     libaapt2
@@ -193,4 +203,4 @@ target_link_libraries(aapt2
     ssl
     c++_static
     dl
-)
+    )

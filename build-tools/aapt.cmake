@@ -1,3 +1,19 @@
+#
+# Copyright © 2022 Github Lzhiyong
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 set(INCLUDES
     ${SRC}/base/libs/androidfw/include
     ${SRC}/expat/lib
@@ -10,7 +26,7 @@ set(INCLUDES
     ${SRC}/libbuildversion/include
     ${SRC}/incremental_delivery/incfs/util/include 
     ${SRC}/incremental_delivery/incfs/kernel-headers
-)
+    )
 
 add_library(libaapt STATIC
     ${SRC}/base/tools/aapt/AaptAssets.cpp
@@ -34,21 +50,17 @@ add_library(libaapt STATIC
     ${SRC}/base/tools/aapt/XMLNode.cpp
     ${SRC}/base/tools/aapt/ZipEntry.cpp
     ${SRC}/base/tools/aapt/ZipFile.cpp
-)
+    )
 target_compile_definitions(libaapt PRIVATE 
     -DSTATIC_ANDROIDFW_FOR_TOOLS
-)
-target_include_directories(libaapt PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(libaapt PRIVATE ${INCLUDES})
 
 add_executable(aapt ${SRC}/base/tools/aapt/Main.cpp)
 target_compile_definitions(aapt PRIVATE 
     -DSTATIC_ANDROIDFW_FOR_TOOLS
-)
-target_include_directories(aapt PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(aapt PRIVATE ${INCLUDES} )
 target_link_libraries(aapt
     libaapt
     libandroidfw
@@ -71,6 +83,6 @@ target_link_libraries(aapt
     c++_static
     dl
     z
-)
+    )
     
     

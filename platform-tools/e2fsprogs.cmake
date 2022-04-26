@@ -1,3 +1,19 @@
+#
+# Copyright © 2022 Github Lzhiyong
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 set(INCLUDES
     ${SRC}/e2fsprogs/lib
     ${SRC}/core/libsparse/include
@@ -6,7 +22,7 @@ set(INCLUDES
     ${SRC}/e2fsprogs/lib/ext2fs
     ${SRC}/selinux/libselinux/include
     ${SRC}/core/libcutils/include
-)
+    )
 
 # libext2_blkid
 add_library(libext2_blkid STATIC
@@ -22,10 +38,8 @@ add_library(libext2_blkid STATIC
     ${SRC}/e2fsprogs/lib/blkid/save.c
     ${SRC}/e2fsprogs/lib/blkid/tag.c
     ${SRC}/e2fsprogs/lib/blkid/version.c
-)
-target_include_directories(libext2_blkid PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(libext2_blkid PRIVATE ${INCLUDES})
 
 # libext2_com_err
 add_library(libext2_com_err STATIC
@@ -34,10 +48,8 @@ add_library(libext2_com_err STATIC
     ${SRC}/e2fsprogs/lib/et/init_et.c
     ${SRC}/e2fsprogs/lib/et/com_err.c
     ${SRC}/e2fsprogs/lib/et/com_right.c
-)
-target_include_directories(libext2_com_err PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(libext2_com_err PRIVATE ${INCLUDES})
 
 # libext2_e2p
 add_library(libext2_e2p STATIC
@@ -65,10 +77,8 @@ add_library(libext2_e2p STATIC
     ${SRC}/e2fsprogs/lib/e2p/uuid.c
     ${SRC}/e2fsprogs/lib/e2p/ostype.c
     ${SRC}/e2fsprogs/lib/e2p/percent.c
-)
-target_include_directories(libext2_e2p PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(libext2_e2p PRIVATE ${INCLUDES})
 
 # libext2_quota
 add_library(libext2_quota STATIC
@@ -82,10 +92,8 @@ add_library(libext2_quota STATIC
     ${SRC}/e2fsprogs/lib/support/quotaio.c
     ${SRC}/e2fsprogs/lib/support/quotaio_tree.c
     ${SRC}/e2fsprogs/lib/support/quotaio_v2.c
-)
-target_include_directories(libext2_quota PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(libext2_quota PRIVATE ${INCLUDES})
 
 # libext2_uuid
 add_library(libext2_uuid STATIC
@@ -99,10 +107,8 @@ add_library(libext2_uuid STATIC
     ${SRC}/e2fsprogs/lib/uuid/unpack.c
     ${SRC}/e2fsprogs/lib/uuid/unparse.c
     ${SRC}/e2fsprogs/lib/uuid/uuid_time.c
-)
-target_include_directories(libext2_uuid PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(libext2_uuid PRIVATE ${INCLUDES})
 
 # libext2fs
 add_library(libext2fs STATIC
@@ -188,18 +194,14 @@ add_library(libext2fs STATIC
     ${SRC}/e2fsprogs/lib/ext2fs/valid_blk.c
     ${SRC}/e2fsprogs/lib/ext2fs/version.c
     ${SRC}/e2fsprogs/lib/ext2fs/test_io.c
-)
-target_include_directories(libext2fs PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(libext2fs PRIVATE ${INCLUDES})
 
 # libext2_misc
 add_library(libext2_misc STATIC 
     ${SRC}/e2fsprogs/misc/create_inode.c
-)
-target_include_directories(libext2_misc PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(libext2_misc PRIVATE ${INCLUDES})
 
 # mke2fs
 add_executable(mke2fs
@@ -207,10 +209,8 @@ add_executable(mke2fs
     ${SRC}/e2fsprogs/misc/util.c
     ${SRC}/e2fsprogs/misc/mk_hugefiles.c
     ${SRC}/e2fsprogs/misc/default_profile.c
-)
-target_include_directories(mke2fs PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(mke2fs PRIVATE ${INCLUDES})
 target_link_libraries(mke2fs 
     libext2_misc 
     libext2_blkid 
@@ -223,7 +223,7 @@ target_link_libraries(mke2fs
     libbase 
     dl
     z
-)
+    )
 
 # e2fsdroid
 add_executable(e2fsdroid
@@ -234,10 +234,8 @@ add_executable(e2fsdroid
     ${SRC}/e2fsprogs/contrib/android/base_fs.c
     ${SRC}/e2fsprogs/contrib/android/perms.c
     ${SRC}/e2fsprogs/contrib/android/basefs_allocator.c
-)
-target_include_directories(e2fsdroid PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(e2fsdroid PRIVATE ${INCLUDES})
 target_link_libraries(e2fsdroid
     libext2_misc 
     libext2_com_err
@@ -252,4 +250,4 @@ target_link_libraries(e2fsdroid
     pcre2-8
     dl
     z
-)
+    )

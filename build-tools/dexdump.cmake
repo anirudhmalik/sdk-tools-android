@@ -1,3 +1,19 @@
+#
+# Copyright © 2022 Github Lzhiyong
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 set(INCLUDES
     ${SRC}/art/libartbase
     ${SRC}/art/libdexfile
@@ -5,7 +21,7 @@ set(INCLUDES
     ${SRC}/libbase/include
     ${SRC}/logging/liblog/include
     ${SRC}/libziparchive/include
-)
+    )
 
 add_library(libartbase STATIC
     ${SRC}/art/libartbase/arch/instruction_set.cc
@@ -37,18 +53,14 @@ add_library(libartbase STATIC
     ${SRC}/art/libartbase/base/zip_archive.cc
     ${SRC}/art/libartbase/base/mem_map_unix.cc
     ${SRC}/art/libartbase/base/globals_unix.cc
-)
-target_include_directories(libartbase PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(libartbase PRIVATE ${INCLUDES})
 
 add_library(libartpalette STATIC
     ${SRC}/art/libartpalette/apex/palette.cc
     ${SRC}/art/libartpalette/system/palette_fake.cc
-)
-target_include_directories(libartpalette PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(libartpalette PRIVATE ${INCLUDES})
 
 add_library(libdexfile STATIC
     ${SRC}/art/libdexfile/dex/art_dex_file_loader.cc
@@ -68,20 +80,16 @@ add_library(libdexfile STATIC
     ${SRC}/art/libdexfile/dex/standard_dex_file.cc
     ${SRC}/art/libdexfile/dex/type_lookup_table.cc
     ${SRC}/art/libdexfile/dex/utf.cc
-)
+    )
 target_compile_options(libdexfile PRIVATE -std=c++17)
-target_include_directories(libdexfile PRIVATE
-    ${INCLUDES}
-)
+target_include_directories(libdexfile PRIVATE ${INCLUDES})
 
 add_executable(dexdump
     ${SRC}/art/dexdump/dexdump_cfg.cc
     ${SRC}/art/dexdump/dexdump_main.cc
     ${SRC}/art/dexdump/dexdump.cc
-)
-target_include_directories(dexdump PRIVATE
-    ${INCLUDES}
-)
+    )
+target_include_directories(dexdump PRIVATE ${INCLUDES})
 target_link_libraries(dexdump 
     libdexfile
     libartbase
@@ -92,5 +100,5 @@ target_link_libraries(dexdump
     c++_static
     dl
     z
-)
+    )
     

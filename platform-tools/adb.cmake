@@ -1,3 +1,19 @@
+#
+# Copyright © 2022 Github Lzhiyong
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 set(ADB_PROTO_SRC)  # adb proto source files
 set(ADB_PROTO_HDRS) # adb proto head files
 set(ADB_PROTO_DIR ${SRC}/adb/proto)
@@ -92,11 +108,11 @@ add_library(libadb STATIC
     ${SRC}/adb/sysdeps_unix.cpp
     ${SRC}/adb/sysdeps/posix/network.cpp
     ${ADB_PROTO_SRC} ${ADB_PROTO_HDRS}
-)
+    )
 target_compile_definitions(libadb PRIVATE 
     -D_GNU_SOURCE
     -DADB_HOST=1
-)
+    )
 target_include_directories(libadb PUBLIC
     ${SRC}/adb
     ${SRC}/adb/proto
@@ -124,14 +140,14 @@ target_include_directories(libadb PUBLIC
     ${SRC}/boringssl/include
     ${SRC}/boringssl/third_party/googletest/include
     ${SRC}/incremental_delivery/incfs/util/include 
-)
+    )
 
 add_library(libadb_crypto STATIC
     ${SRC}/adb/crypto/key.cpp
     ${SRC}/adb/crypto/rsa_2048_key.cpp
     ${SRC}/adb/crypto/x509_generator.cpp
     ${ADB_PROTO_HDRS}
-)
+    )
 target_include_directories(libadb_crypto PRIVATE
     ${SRC}/adb
     ${SRC}/adb/crypto/include
@@ -140,22 +156,22 @@ target_include_directories(libadb_crypto PRIVATE
     ${SRC}/core/libcrypto_utils/include
     ${SRC}/libbase/include
     ${SRC}/protobuf/src
-)
+    )
 
 add_library(libadb_tls_connection STATIC
     ${SRC}/adb/tls/adb_ca_list.cpp
     ${SRC}/adb/tls/tls_connection.cpp
-)
+    )
 target_include_directories(libadb_tls_connection PRIVATE
     ${SRC}/adb
     ${SRC}/adb/tls/include
     ${SRC}/boringssl/include
     ${SRC}/libbase/include
-)
+    )
     
 add_library(libadb_pairing_connection STATIC
     ${SRC}/adb/pairing_connection/pairing_connection.cpp
-)
+    )
 target_include_directories(libadb_pairing_connection PUBLIC
     ${SRC}/adb/proto
     ${SRC}/adb/pairing_connection/include
@@ -164,26 +180,26 @@ target_include_directories(libadb_pairing_connection PUBLIC
     ${SRC}/libbase/include
     ${SRC}/boringssl/include
     ${SRC}/protobuf/src
-)
+    )
 
 add_library(libadb_pairing_auth STATIC
     ${SRC}/adb/pairing_auth/aes_128_gcm.cpp
     ${SRC}/adb/pairing_auth/pairing_auth.cpp
-)
+    )
 target_include_directories(libadb_pairing_auth PRIVATE
     ${SRC}/adb/pairing_auth/include
     ${SRC}/libbase/include
     ${SRC}/boringssl/include
     ${SRC}/protobuf/src
-)
+    )
 
 add_library(libadb_sysdeps STATIC
     ${SRC}/adb/sysdeps/env.cpp
-)
+    )
 target_include_directories(libadb_sysdeps PRIVATE
     ${SRC}/libbase/include
     ${SRC}/adb
-)
+    )
 
 add_library(libfastdeploy STATIC
     ${SRC}/adb/fastdeploy/deploypatchgenerator/apk_archive.cpp
@@ -191,22 +207,22 @@ add_library(libfastdeploy STATIC
     ${SRC}/adb/fastdeploy/deploypatchgenerator/patch_utils.cpp
     ${SRC}/adb/fastdeploy/proto/ApkEntry.proto
     ${FASTDEPLOY_PROTO_SRC} ${FASTDEPLOY_PROTO_HDRS}
-)
+    )
 target_include_directories(libfastdeploy PRIVATE
     ${SRC}/adb
     ${SRC}/core/libcutils/include
     ${SRC}/libbase/include
     ${SRC}/protobuf/src
     ${SRC}/boringssl/include
-)
+    )
 
 add_library(libcrypto STATIC
     ${SRC}/core/libcrypto_utils/android_pubkey.cpp
-)
+    )
 target_include_directories(libcrypto PRIVATE
     ${SRC}/core/libcrypto_utils/include 
     ${SRC}/boringssl/include
-)
+    )
 
 add_executable(adb
     ${SRC}/adb/client/adb_client.cpp
@@ -224,7 +240,7 @@ add_executable(adb
     ${SRC}/adb/client/incremental_utils.cpp
     ${SRC}/adb/shell_service_protocol.cpp
     ${ADB_PROTO_HDRS}
-)
+    )
 target_include_directories(adb PRIVATE
     ${SRC}/adb
     ${SRC}/adb/fastdeploy/deployagent
@@ -234,11 +250,11 @@ target_include_directories(adb PRIVATE
     ${SRC}/core/libcutils/include
     ${SRC}/core/libcrypto_utils/include 
     ${SRC}/boringssl/include
-)
+    )
 target_compile_definitions(adb PRIVATE 
     -D_GNU_SOURCE
     -DADB_HOST=1
-)
+    )
 target_link_libraries(adb
     libadb
     libadb_crypto
@@ -278,4 +294,4 @@ target_link_libraries(adb
     ssl
     dl
     z
-)
+    )
