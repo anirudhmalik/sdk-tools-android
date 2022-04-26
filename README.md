@@ -44,6 +44,9 @@ cmake -G 'Ninja' \
     ..
 # ==============end build.sh===============
 
+# execute build.sh for the first time
+bash build.sh
+
 # generate the protoc file
 ninja aprotoc
 
