@@ -4,6 +4,7 @@ import os
 import requests
 import tarfile
 import shutil
+import subprocess
 from pathlib import Path
 
 
@@ -43,7 +44,18 @@ def patch():
 
     shutil.copy2(Path("patches/other/platform_tools_version.h"), Path("src/libbuildversion/include"))
 
+def check(command):
+    try:
+        output = subprocess.check_output("command -v {}".format(command), shell=True)
+        print(output.decode("utf-8"))
+    except subprocess.CalledProcessError as e:
+        print("please install the {} package".format(command))
+        exit()
+
+
 def main():
+    # check git
+    check("git")
     # branch android-mainline-12.0.0_r32
     # libziparchive
     url = "https://android.googlesource.com/platform/system/libziparchive/+archive/a0b94e44142022e8b6ba86c3dc84b9f2594f9f98.tar.gz"
@@ -65,11 +77,14 @@ def main():
     os.system("git submodule update --depth=1 --init --recursive")
     os.system("git submodule update --depth=1 --remote")
     
+    # patch files
     patch()
+    
+    # check golang
+    check("go")
     
     print("download success!!")
 
 if __name__ == "__main__":
     main()
-    
-    
+ 
