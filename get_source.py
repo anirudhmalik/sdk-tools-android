@@ -86,7 +86,7 @@ def main():
     download(url, os.path.basename(url), "src/etc1tool")
 
     # libbuildversion
-    url = "https://android.googlesource.com/platform/build/soong/+archive/master/cc/libbuildversion.tar.gz"
+    url = "https://android.googlesource.com/platform/build/soong/+archive/refs/tags/android-mainline-12.0.0_r32/cc/libbuildversion.tar.gz"
     download(url, os.path.basename(url), "src/libbuildversion")
 
     # git clone submodules
