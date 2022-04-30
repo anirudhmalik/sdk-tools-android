@@ -4,15 +4,13 @@ If you need other tools, please refer to existing tools to add CMake file
 
 Currently only test the aarch64 architecture</br>
 
-I haven't tested other architectures, so I can't guarantee it will work, although I have support for cross-compilation
-
-If you have a better solution, you can submit PR
+I haven't tested other architectures, so I can't guarantee it will work, although I have support for cross-compiling
 
  **** 
  
 ### How to build
 
-Method one, download the release/sdk-tools-source.zip directly to compile, the source code has been patched
+Method one, download the `release/sdk-tools-source.zip` directly to compile, the source code has been patched
 
 ```bash
 # arch [arm, aarch64, x86, x86_64]
@@ -39,8 +37,8 @@ python build.py \
 
  **** 
  
-Method two, start from scratch，git clone the source code, then patch it manually
-Why patch it manually? the main reason is the master branch is updated very quickly
+Method two, start from scratch，git clone the source code, then patch it manually</br>
+Why patch it manually? the main reason is the master branch is updated very quickly,
 so the patch files may be incompatible
 
 ```bash
