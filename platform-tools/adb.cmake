@@ -93,7 +93,6 @@ if(DEFINED PROTOC_PATH)
     set_source_files_properties(${FASTDEPLOY_PROTO_SRC} PROPERTIES GENERATED TRUE)
     set_source_files_properties(${FASTDEPLOY_PROTO_HDRS} PROPERTIES GENERATED TRUE)
 endif()
-
 # ========================= fastdeploy proto ============================
 
 

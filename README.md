@@ -53,7 +53,7 @@ python get_source.py
 
 # note that you need a host protoc before compilation for generating cpp files
 # host protoc not target platform protoc
-# how to get a host protoc 
+# how to get a host protoc
 # cd src/protobuf, use host clang or gcc to compile it, you can get a host protoc
 # why not use the system's protobuf? mainly the version incompatibility
 # if the protobuf version is too new, you may encounter the following error
