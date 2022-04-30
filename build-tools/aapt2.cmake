@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+# ========================= aapt2 proto ============================
 set(AAPT2_PROTO_SRC)  # proto source files
 set(AAPT2_PROTO_HDRS) # proto head files
 set(AAPT2_PROTO_DIR ${SRC}/base/tools/aapt2)
@@ -23,27 +24,39 @@ file(GLOB_RECURSE PROTO_FILES ${AAPT2_PROTO_DIR}/*.proto)
 foreach(proto ${PROTO_FILES})
     get_filename_component(FIL_WE ${proto} NAME_WE)
     
-    # execute the protoc command to generate the proto targets
-    execute_process(
-        COMMAND ${CMAKE_BINARY_DIR}/bin/protoc ${proto}
-        --proto_path=${AAPT2_PROTO_DIR}
-        --cpp_out=${AAPT2_PROTO_DIR}
-        WORKING_DIRECTORY ${AAPT2_PROTO_DIR}
-    )
-        
+    if(DEFINED PROTOC_PATH)
+        # execute the protoc command to generate the proto targets for host arch
+        execute_process(
+            COMMAND ${PROTOC_COMPILER} ${proto}
+            --proto_path=${AAPT2_PROTO_DIR}
+            --cpp_out=${AAPT2_PROTO_DIR}
+            COMMAND_ECHO STDOUT
+            RESULT_VARIABLE RESULT
+            WORKING_DIRECTORY ${AAPT2_PROTO_DIR}
+        )
+    
+        # check command result
+        if(RESULT EQUAL 0)
+            message(STATUS "generate cpp file ${TARGET_CPP_FILE}")
+            message(STATUS "generate head file ${TARGET_HEAD_FILE}")
+        endif()
+    endif()
+    
     set(TARGET_CPP_FILE "${AAPT2_PROTO_DIR}/${FIL_WE}.pb.cc")
     set(TARGET_HEAD_FILE "${AAPT2_PROTO_DIR}/${FIL_WE}.pb.h")
     
     if(EXISTS ${TARGET_CPP_FILE} AND EXISTS ${TARGET_HEAD_FILE})
         list(APPEND AAPT2_PROTO_SRC ${TARGET_CPP_FILE})
         list(APPEND AAPT2_PROTO_HDRS ${TARGET_HEAD_FILE})
-        
-        message(STATUS "generate cpp file ${TARGET_CPP_FILE}")
-        message(STATUS "generate head file ${TARGET_HEAD_FILE}")
     endif()
 endforeach()
 
-set_source_files_properties(${AAPT2_PROTO_SRC} ${AAPT2_PROTO_HDRS} PROPERTIES GENERATED TRUE)
+if(DEFINED PROTOC_PATH)
+    set_source_files_properties(${AAPT2_PROTO_SRC} PROPERTIES GENERATED TRUE)
+    set_source_files_properties(${AAPT2_PROTO_HDRS} PROPERTIES GENERATED TRUE)
+endif()
+# ========================= aapt2 proto ============================
+
 
 set(INCLUDES
     ${SRC}/base/tools/aapt2
@@ -197,10 +210,10 @@ target_link_libraries(aapt2
     protobuf::libprotoc
     protobuf::libprotobuf
     expat
-    png_static
-    pcre2-8
     crypto
     ssl
+    pcre2-8
+    png_static
     c++_static
     dl
     )

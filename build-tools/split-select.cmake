@@ -52,9 +52,9 @@ target_link_libraries(split-select
     liblog
     expat
     crypto
+    pcre2-8
     jsoncpp_static
     png_static
-    pcre2-8
     c++_static
     dl
     z

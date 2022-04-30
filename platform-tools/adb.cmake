@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+# ========================= adb proto ============================
 set(ADB_PROTO_SRC)  # adb proto source files
 set(ADB_PROTO_HDRS) # adb proto head files
 set(ADB_PROTO_DIR ${SRC}/adb/proto)
@@ -22,42 +23,63 @@ file(GLOB_RECURSE PROTO_FILES ${ADB_PROTO_DIR}/*.proto)
 
 foreach(proto ${PROTO_FILES})
     get_filename_component(FIL_WE ${proto} NAME_WE)
-    
-    # execute the protoc command to generate the proto targets
-    execute_process(
-        COMMAND ${CMAKE_BINARY_DIR}/bin/protoc ${proto}
-        --proto_path=${ADB_PROTO_DIR}
-        --cpp_out=${ADB_PROTO_DIR}
-        WORKING_DIRECTORY ${ADB_PROTO_DIR}
-    )
+    if(DEFINED PROTOC_PATH)
+        # execute the protoc command to generate the proto targets for host arch
+        execute_process(
+            COMMAND ${PROTOC_COMPILER} ${proto}
+            --proto_path=${ADB_PROTO_DIR}
+            --cpp_out=${ADB_PROTO_DIR}
+            COMMAND_ECHO STDOUT
+            RESULT_VARIABLE RESULT
+            WORKING_DIRECTORY ${ADB_PROTO_DIR}
+        )
+        
+        # check command result
+        if(RESULT EQUAL 0)
+            message(STATUS "generate cpp file ${TARGET_CPP_FILE}")
+            message(STATUS "generate head file ${TARGET_HEAD_FILE}")
+        endif()
+    endif()
     
     set(TARGET_CPP_FILE "${ADB_PROTO_DIR}/${FIL_WE}.pb.cc")
     set(TARGET_HEAD_FILE "${ADB_PROTO_DIR}/${FIL_WE}.pb.h")
    
     if(EXISTS ${TARGET_CPP_FILE} AND EXISTS ${TARGET_HEAD_FILE})
-        
         list(APPEND ADB_PROTO_SRC ${TARGET_CPP_FILE})
         list(APPEND ADB_PROTO_HDRS ${TARGET_HEAD_FILE})
-        
-        message(STATUS "generate cpp file ${TARGET_CPP_FILE}")
-        message(STATUS "generate head file ${TARGET_HEAD_FILE}")
     endif()
 endforeach()
 
-set_source_files_properties(${ADB_PROTO_SRC} ${ADB_PROTO_HDRS} PROPERTIES GENERATED TRUE)
+if(DEFINED PROTOC_PATH)
+    set_source_files_properties(${ADB_PROTO_SRC} PROPERTIES GENERATED TRUE)
+    set_source_files_properties(${ADB_PROTO_HDRS} PROPERTIES GENERATED TRUE)
+endif()
+# ========================= adb proto ============================
 
+
+# ========================= fastdeploy proto ============================
 # ApkEntry.proto
 set(FASTDEPLOY_PROTO_SRC)  # adb proto source files
 set(FASTDEPLOY_PROTO_HDRS) # adb proto head files
 set(FASTDEPLOY_PROTO_DIR ${CMAKE_SOURCE_DIR}/src/adb/fastdeploy/proto)
 
-# execute the protoc command to generate the proto targets
-execute_process(
-    COMMAND ${CMAKE_BINARY_DIR}/bin/protoc ${FASTDEPLOY_PROTO_DIR}/ApkEntry.proto
-    --proto_path=${FASTDEPLOY_PROTO_DIR}
-    --cpp_out=${FASTDEPLOY_PROTO_DIR}
-    WORKING_DIRECTORY ${FASTDEPLOY_PROTO_DIR}
-)
+if(DEFINED PROTOC_PATH)
+    # execute the protoc command to generate the proto targets for host arch
+    execute_process(
+        COMMAND ${PROTOC_COMPILER} ${FASTDEPLOY_PROTO_DIR}/ApkEntry.proto
+        --proto_path=${FASTDEPLOY_PROTO_DIR}
+        --cpp_out=${FASTDEPLOY_PROTO_DIR}
+        COMMAND_ECHO STDOUT
+        RESULT_VARIABLE RESULT
+        WORKING_DIRECTORY ${FASTDEPLOY_PROTO_DIR}
+    )
+    
+    # check command result
+    if(RESULT EQUAL 0)
+        message(STATUS "generate cpp file ${TARGET_CPP_FILE}")
+        message(STATUS "generate head file ${TARGET_HEAD_FILE}")
+    endif()
+endif()
 
 set(TARGET_CPP_FILE "${FASTDEPLOY_PROTO_DIR}/ApkEntry.pb.cc")
 set(TARGET_HEAD_FILE "${FASTDEPLOY_PROTO_DIR}/ApkEntry.pb.h")
@@ -65,12 +87,15 @@ set(TARGET_HEAD_FILE "${FASTDEPLOY_PROTO_DIR}/ApkEntry.pb.h")
 if(EXISTS ${TARGET_CPP_FILE} AND EXISTS ${TARGET_HEAD_FILE})
     list(APPEND FASTDEPLOY_PROTO_SRC ${TARGET_CPP_FILE})
     list(APPEND FASTDEPLOY_PROTO_HDRS ${TARGET_HEAD_FILE})
-    
-    message(STATUS "generate cpp file ${TARGET_CPP_FILE}")
-    message(STATUS "generate head file ${TARGET_HEAD_FILE}")
 endif()
 
-set_source_files_properties(${FASTDEPLOY_PROTO_SRC} ${FASTDEPLOY_PROTO_HDRS} PROPERTIES GENERATED TRUE)
+if(DEFINED PROTOC_PATH)
+    set_source_files_properties(${FASTDEPLOY_PROTO_SRC} PROPERTIES GENERATED TRUE)
+    set_source_files_properties(${FASTDEPLOY_PROTO_HDRS} PROPERTIES GENERATED TRUE)
+endif()
+
+# ========================= fastdeploy proto ============================
+
 
 add_library(libadb STATIC
     ${SRC}/adb/adb.cpp
@@ -279,19 +304,19 @@ target_link_libraries(adb
     libopenscreen
     libusb
     liblog
-    libzstd_static
-    brotlicommon-static
-    brotlidec-static
-    brotlienc-static
+    pcre2-8
+    crypto
+    ssl
     protobuf::libprotoc
     protobuf::libprotobuf
     absl::base
     absl::strings
-    pcre2-8
+    brotlicommon-static
+    brotlidec-static
+    brotlienc-static
+    libzstd_static
     lz4_static
     c++_static
-    crypto
-    ssl
     dl
     z
     )

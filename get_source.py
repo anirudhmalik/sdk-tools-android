@@ -68,7 +68,6 @@ def check(command):
         print("please install the {} package".format(command))
         exit()
 
-
 def main():
     # check git
     check("git")
@@ -90,8 +89,8 @@ def main():
     download(url, os.path.basename(url), "src/libbuildversion")
 
     # git clone submodules
-    os.system("git submodule update --depth=1 --init --recursive")
-    os.system("git submodule update --depth=1 --remote")
+    subprocess.run("git submodule update --depth=1 --init --recursive", shell=True)
+    subprocess.run("git submodule update --depth=1 --remote", shell=True)
     
     # patch files
     patch()
