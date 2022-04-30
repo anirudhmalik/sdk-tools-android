@@ -77,11 +77,11 @@ def configure(args):
         cc = toolchain / "bin" / "x86_64-linux-android{}-clang".format(args.api)
         cxx = toolchain / "bin" / "x86_64-linux-android{}-clang++".format(args.api)
     
-    if not cc.exists() or not cxx.exists():
-        raise ValueError("error: cannot find the clang compiler")
-
     print("cc is {}".format(cc))
     print("cxx is {}".format(cxx))
+    
+    if not cc.exists() or not cxx.exists():
+        raise ValueError("error: cannot find the clang compiler")
 
     # start building
     build(str(cc), str(cxx), args)
