@@ -137,7 +137,7 @@ target_compile_definitions(libadb PRIVATE
     -D_GNU_SOURCE
     -DADB_HOST=1
     )
-target_include_directories(libadb PUBLIC
+target_include_directories(libadb PRIVATE
     ${SRC}/adb
     ${SRC}/adb/proto
     ${SRC}/adb/crypto/include
@@ -196,7 +196,7 @@ target_include_directories(libadb_tls_connection PRIVATE
 add_library(libadb_pairing_connection STATIC
     ${SRC}/adb/pairing_connection/pairing_connection.cpp
     )
-target_include_directories(libadb_pairing_connection PUBLIC
+target_include_directories(libadb_pairing_connection PRIVATE
     ${SRC}/adb/proto
     ${SRC}/adb/pairing_connection/include
     ${SRC}/adb/pairing_auth/include
