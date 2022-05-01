@@ -267,13 +267,16 @@ add_executable(adb
     )
 target_include_directories(adb PRIVATE
     ${SRC}/adb
+    ${SRC}/adb/proto
     ${SRC}/adb/fastdeploy/deployagent
     ${SRC}/lz4/lib
+    ${SRC}/zstd/lib
     ${SRC}/libbase/include 
     ${SRC}/core/include 
     ${SRC}/core/libcutils/include
     ${SRC}/core/libcrypto_utils/include 
     ${SRC}/boringssl/include
+    ${SRC}/boringssl/third_party/googletest/include
     )
 target_compile_definitions(adb PRIVATE 
     -D_GNU_SOURCE
