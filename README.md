@@ -38,7 +38,7 @@ python build.py \
  **** 
  
 Method two, start from scratch，git clone the source code, then patch it manually</br>
-Why patch it manually? the main reason is the `aosp` master branch is updated very quickly,
+Why patch it manually? the main reason is the aosp master branch is updated very quickly,
 so the patch files may be incompatible
 
 ```bash
