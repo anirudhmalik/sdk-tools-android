@@ -24,7 +24,7 @@ python build.py \
     --arch aarch64 \
     --build build/aarch64
     
-# specify the build target, such as aspt2 adb, etc
+# specify the build target, such as aapt2 adb, etc
 python build.py \
     --ndk=/path/to/android-ndk-xxx \
     --arch aarch64 \
